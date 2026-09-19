@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>故事篇章 — 吉伊卡哇圖鑑</title>
+<meta name="description" content="《ちいかわ》六大長篇的完整脈絡整理、八個獨立名場面精選，以及由連載到劇場版的時間軸。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F4CFC6'/%3E%3Cpath d='M16 25s-8-5.2-8-11.4A4.6 4.6 0 0 1 16 10a4.6 4.6 0 0 1 8 3.6C24 19.8 16 25 16 25z' fill='%23B45E2E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Nunito+Sans:wght@300;400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<div data-nav></div>
+
+<main id="main">
+  <section class="section" style="padding-bottom:var(--s-4)">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">故事篇章</span>
+        <h1>六個長篇，八個瞬間</h1>
+        <p>
+          每個篇章都按「背景 → 主線 → 轉折 → 結局 → 主題」整理，並附上可以帶走的一句。
+          名場面精選則收錄獨立成篇、情感衝擊力最強的短篇。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="anchor-nav"><div class="wrap"><ul>
+    <li><a href="#arcs">長篇章</a></li>
+    <li><a href="#moments">名場面精選</a></li>
+    <li><a href="#timeline">時間軸</a></li>
+    <li><a href="movie.html">劇場版專頁</a></li>
+  </ul></div></div>
+
+  <section class="section" id="arcs" style="padding-top:0">
+    <div class="wrap"><div data-arcs></div></div>
+  </section>
+
+  <section class="section section--alt" id="moments">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">名場面精選</span>
+        <h2>八個獨立成篇的瞬間</h2>
+        <p>不需要前文後理都讀得明，但讀完之後會記很久的那一種。</p>
+      </div>
+      <div class="grid grid--2" data-moments></div>
+    </div>
+  </section>
+
+  <section class="section" id="timeline">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">時間軸</span>
+        <h2>由連載到劇場版</h2>
+        <p>橫向捲動查看。使用鍵盤時，可以用左右方向鍵移動。</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline__ctrl">
+          <button type="button" data-tl-prev aria-label="向左捲動時間軸">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button type="button" data-tl-next aria-label="向右捲動時間軸">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="timeline__track" data-timeline tabindex="0" role="group" aria-label="故事時間軸，可用左右方向鍵捲動"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div data-footer></div>
+<script src="data/characters.js"></script>
+<script src="data/stories.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/stories.js"></script>
+</body>
+</html>

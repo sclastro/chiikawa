@@ -1,0 +1,7 @@
+# 第三方 skill，不納入網站 repo
+.claude/skills/
+
+# 系統檔案
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>角色關係圖 — 吉伊卡哇圖鑑</title>
+<meta name="description" content="以互動 SVG 呈現《ちいかわ》十七個角色之間的關係網絡。點選任一角色可突顯其所有關係線。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F4CFC6'/%3E%3Cpath d='M16 25s-8-5.2-8-11.4A4.6 4.6 0 0 1 16 10a4.6 4.6 0 0 1 8 3.6C24 19.8 16 25 16 25z' fill='%23B45E2E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Nunito+Sans:wght@300;400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<div data-nav></div>
+
+<main id="main">
+  <section class="section" style="padding-bottom:var(--s-5)">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">角色關係圖</span>
+        <h1>誰和誰，是甚麼關係</h1>
+        <p>
+          點選任何一個角色，會突顯出牠的所有關係線，其餘部分淡化。
+          右側（手機為下方）會顯示該角色的關係清單。可以用 Tab 鍵逐個選取，按 Enter 或空白鍵選定。
+        </p>
+      </div>
+
+      <div class="relmap-layout">
+        <div>
+          <div class="relmap-stage">
+            <svg class="relmap" data-relmap viewBox="0 0 1000 720" role="img"
+                 aria-label="角色關係網絡圖，可互動"></svg>
+          </div>
+          <p class="relmap-hint">窄螢幕可左右捲動圖表。按 Esc 或再點一次同一角色可取消選取。</p>
+        </div>
+        <aside class="relmap-panel">
+          <div class="card" data-relmap-panel></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div data-footer></div>
+<script src="data/characters.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/relations.js"></script>
+</body>
+</html>

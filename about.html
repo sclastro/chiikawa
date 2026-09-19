@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>關於本站 — 吉伊卡哇圖鑑</title>
+<meta name="description" content="本站的編寫原則、資料來源處理方式、版權聲明，以及如何自行替換站內圖片。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F4CFC6'/%3E%3Cpath d='M16 25s-8-5.2-8-11.4A4.6 4.6 0 0 1 16 10a4.6 4.6 0 0 1 8 3.6C24 19.8 16 25 16 25z' fill='%23B45E2E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Nunito+Sans:wght@300;400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/pages.css">
+</head>
+<body>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<div data-nav></div>
+
+<main id="main">
+  <section class="section">
+    <div class="wrap wrap--text">
+      <span class="eyebrow">關於本站</span>
+      <h1>一個用心寫的非官方資料站</h1>
+      <p class="lede">
+        這個網站整理《ちいかわ》的角色、故事與世界觀，並嘗試做一件其他資料站較少做的事：
+        把作品裡的行為模式，整理成可以應用在交友、讀書、工作與情緒上的具體參照。
+      </p>
+
+      <h2>編寫原則</h2>
+      <p>
+        <strong>一、所有文字為原創撰寫。</strong>站內的角色介紹、情節整理與分析，均為本站自行撰寫，
+        並非轉載官方文案或其他網站內容。
+      </p>
+      <p>
+        <strong>二、事實與推測分開標示。</strong>凡屬粉絲考察而未經官方確認的內容（例如鼯鼠與巨大強者之間的關聯），
+        均已在文中明確註明，不會與已確認的設定混為一談。
+      </p>
+      <p>
+        <strong>三、不寫空泛的道理。</strong>「人生參照」專區的每一條，都由一個確切的情節入手，
+        講清楚背後的道理，再落到現實中可以怎樣做。查不到、講不通的，寧可不寫。
+      </p>
+      <p>
+        <strong>四、不劇透之處會事先提示。</strong>涉及重要結局的段落（尤其海妖之島篇與劇場版），
+        會在該處加上觀影提示。
+      </p>
+
+      <h2>資料處理</h2>
+      <p>
+        事實部分以官方公開資訊與可查證的公開資料為據。作品仍在連載，設定與角色資料會隨時間更新；
+        若你發現任何錯漏，歡迎指正。涉及劇場版的資料，建議以官方公佈為準。
+      </p>
+
+      <h2>圖片說明</h2>
+      <p>
+        基於版權考慮，本站不使用官方插圖。站內所有圖片位置目前放置的是佔位圖，
+        由網站擁有者自行替換為合法取得的圖片。替換方式非常簡單：
+        把同名檔案放入 <code>images/characters/</code> 或 <code>images/stories/</code> 即可，
+        毋須改動任何程式碼。完整清單見 <code>images/IMAGE_LIST.md</code>。
+      </p>
+
+      <h2>版權聲明</h2>
+      <div class="note">
+        《ちいかわ》原作及所有角色之著作權，屬 <strong>ナガノ</strong> 老師及其相關權利人所有。
+        本站為非官方、非商業之愛好者資料站，與版權方並無任何關聯，亦未獲其授權或認可。
+        站內文字為本站原創之介紹與評析，屬合理引用與評論性質。
+        若權利人認為本站任何內容有不妥之處，請聯絡以便即時移除。
+      </div>
+
+      <h2>技術說明</h2>
+      <p>
+        本站以純 HTML、CSS 與原生 JavaScript 建成，沒有任何框架或建置步驟，
+        可直接以瀏覽器開啟。所有內容資料集中存放在 <code>data/</code> 目錄下的幾個檔案中，
+        新增角色或篇章只需在資料檔加一筆，頁面會自動反映。
+      </p>
+      <p>
+        版面設計上，配色以米白與大地色為基調，正文對比度符合 WCAG AA 標準；
+        動效全部尊重系統的「減少動態效果」設定；鍵盤操作在全站均有可見的 focus 指示。
+      </p>
+
+      <h2>由這裡開始</h2>
+      <p style="display:flex;flex-wrap:wrap;gap:var(--s-3)">
+        <a class="btn btn--primary" href="characters.html">角色圖鑑</a>
+        <a class="btn btn--ghost" href="reference.html">人生參照</a>
+        <a class="btn btn--ghost" href="quiz.html">性格測驗</a>
+      </p>
+    </div>
+  </section>
+</main>
+
+<div data-footer></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
