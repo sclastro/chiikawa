@@ -16,11 +16,16 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  # 設為 true：新的部署有權中止仍在進行中的舊部署。
+  # GitHub 的範本預設 false，但那會令一個卡住的 run 無限期霸佔隊列，
+  # 令其後所有部署開不了。這個網站是純靜態站，中途中止沒有風險。
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # 純靜態站，正常兩分鐘內完成；設上限避免卡住的 run 長時間霸佔隊列。
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
