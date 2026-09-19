@@ -2,7 +2,11 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      # 目前的預設分支。GitHub Pages 的 github-pages environment 預設只准
+      # 預設分支部署，所以兩條都接受，無論日後有沒有切換預設分支都部署得到。
+      - claude/stoic-brahmagupta-8tdo0u
   workflow_dispatch:
 
 permissions:

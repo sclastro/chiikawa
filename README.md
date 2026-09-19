@@ -60,12 +60,17 @@ python -m http.server 8000
 
 ## 部署到 GitHub Pages
 
-專案已附 `.github/workflows/pages.yml`。合併到 `main` 之後：
+專案已附 `.github/workflows/pages.yml`，無建置步驟，直接部署整個 repo 根目錄。
 
-1. 到 repo 的 **Settings → Pages**
-2. 將 **Source** 設為 **GitHub Actions**
+**必要的一步**（只需做一次）：到 repo 的 **Settings → Pages**，將 **Source** 設為 **GitHub Actions**。
 
-之後每次 push 到 `main` 都會自動部署。
+完成後網址是 <https://sclastro.github.io/chiikawa/>，其後每次 push 都會自動更新。
+
+**建議但非必要**：到 **Settings → General → Default branch** 把預設分支改為 `main`。
+workflow 同時接受 `main` 與 `claude/stoic-brahmagupta-8tdo0u` 兩條分支，是因為 GitHub Pages 的
+`github-pages` environment 預設只准從**預設分支**部署——兩條都綁上，無論預設分支是哪一條都部署得到。
+
+若要手動觸發一次部署：Actions → Deploy to GitHub Pages → Run workflow。
 
 ## 版權
 

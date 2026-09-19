@@ -41,11 +41,12 @@
       for (var i = 0; i < list.length; i++) { if (list[i].id === id) return list[i]; }
       return null;
     },
-    /** 角色頭像（含佔位圖 fallback） */
+    /** 角色頭像。data-tint 供載入失敗時的後備填色使用（見 initImageFallback） */
     avatar: function (c, cls) {
       if (!c) return '';
       return '<img src="' + App.esc(c.image) + '" alt="' + App.esc(c.name) +
              '（' + App.esc(c.nameJa) + '）的圖片位" loading="lazy"' +
+             ' data-tint="' + App.esc(c.tint) + '"' +
              (cls ? ' class="' + cls + '"' : '') + '>';
     },
     /** 角色詳情頁連結 */
@@ -137,8 +138,23 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- 圖片載入失敗的後備顯示 ----------
+     error 事件不會冒泡，所以在 document 上以 capture 模式監聽；
+     這樣連日後動態插入的圖片都涵蓋得到。 */
+  function initImageFallback() {
+    document.addEventListener('error', function (e) {
+      var t = e.target;
+      if (!t || t.tagName !== 'IMG' || !t.hasAttribute('data-tint')) return;
+      t.style.display = 'none';
+      if (t.parentNode && t.parentNode.style) {
+        t.parentNode.style.background = t.getAttribute('data-tint');
+      }
+    }, true);
+  }
+
   /* ---------- 啟動 ---------- */
   function boot() {
+    initImageFallback();
     buildNav();
     buildFooter();
     initReveal();
