@@ -29,6 +29,10 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # 若 repo 尚未啟用 Pages，由這個 action 代為啟用，
+          # 省卻手動到 Settings → Pages 設定的一步。
+          enablement: true
 
       # 純靜態網站，無建置步驟，直接上傳整個 repo 根目錄
       - name: Upload artifact
