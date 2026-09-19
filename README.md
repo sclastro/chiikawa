@@ -62,7 +62,12 @@ python -m http.server 8000
 
 專案已附 `.github/workflows/pages.yml`，無建置步驟，直接部署整個 repo 根目錄。
 
-**必要的一步**（只需做一次）：到 repo 的 **Settings → Pages**，將 **Source** 設為 **GitHub Actions**。
+**必要的一步**（只需做一次，而且只能由 repo 擁有者做）：
+到 <https://github.com/sclastro/chiikawa/settings/pages>，將 **Source** 設為 **GitHub Actions**。
+
+這一步無法由 workflow 代勞：`actions/configure-pages` 雖有 `enablement` 參數，
+但 workflow 的 `GITHUB_TOKEN` 沒有建立 Pages 站點的權限，實測會得到
+`Create Pages site failed: Resource not accessible by integration`。
 
 完成後網址是 <https://sclastro.github.io/chiikawa/>，其後每次 push 都會自動更新。
 

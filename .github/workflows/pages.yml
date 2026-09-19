@@ -35,8 +35,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
-          # 若 repo 尚未啟用 Pages，由這個 action 代為啟用，
-          # 省卻手動到 Settings → Pages 設定的一步。
+          # 嘗試代為啟用 Pages。實測本 repo 的 GITHUB_TOKEN 權限不足
+          # （Create Pages site failed: Resource not accessible by integration），
+          # 所以首次仍須由 repo 擁有者到 Settings → Pages 手動啟用一次。
+          # 保留此設定無害：Pages 一旦啟用，這裡只會讀取現有設定。
           enablement: true
 
       # 純靜態網站，無建置步驟，直接上傳整個 repo 根目錄
