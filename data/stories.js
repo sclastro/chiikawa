@@ -9,7 +9,7 @@ window.CHIIKAWA_ARCS = [
     nameJa: '草むしり検定編',
     period: '2020 年起，前後橫跨約五年',
     tint: '#F7E3AC',
-    cast: ['chiikawa', 'hachiware', 'usagi', 'kusa-yoroi'],
+    cast: ['chiikawa', 'hachiware', 'usagi', 'rodo-yoroi'],
     summary: '草拔檢定是這個世界的資格制度之一，考核內容是分辨危險的毒草。合格之後可以作業的範圍擴大，報酬亦會提高。吉伊卡哇與八割首次一同應考，只有八割合格；吉伊卡哇此後再考一次仍然落選，直至第三次應考才終於取得五級。由初次應考到合格，中間相隔接近五年。',
     beats: [
       { label: '第一次', body: '與八割一同應考。放榜後只有八割合格。吉伊卡哇的第一次落選，同時也是整條友情線的起點——八割的喜悅被對方的失落壓住了。' },

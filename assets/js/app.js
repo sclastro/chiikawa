@@ -121,21 +121,55 @@
       '</div></footer>';
   }
 
-  /* ---------- 滾動淡入 ---------- */
+  /* ---------- 滾動淡入 ----------
+     重要：各頁的內容是在 app:ready 之後才注入的，若只在啟動時掃描一次，
+     動態產生的 .reveal 永遠不會被監看，會一直停在 opacity:0——畫面上
+     完全看不見。故此以 MutationObserver 持續接手新加入的元素。
+
+     另一重保險在 CSS：隱藏樣式只在 <html> 有 js-anim 時生效，而這個
+     class 由下面的程式碼加上。萬一 JS 失效，內容照樣看得見。 */
   function initReveal() {
-    var els = document.querySelectorAll('.reveal');
-    if (!els.length) return;
+    var root = document.documentElement;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     if (reduce || !('IntersectionObserver' in window)) {
-      els.forEach(function (el) { el.classList.add('is-in'); });
-      return;
+      return;   // 不加 js-anim，一切維持可見，毋須任何動畫
     }
+    root.classList.add('js-anim');
+
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-    els.forEach(function (el) { io.observe(el); });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.04 });
+
+    /** 掃描並接手所有未處理的 .reveal */
+    function scan(scope) {
+      var list = (scope || document).querySelectorAll('.reveal:not([data-reveal-seen])');
+      Array.prototype.forEach.call(list, function (el) {
+        el.setAttribute('data-reveal-seen', '');
+        // 網格類容器改為逐個子項交錯浮現，比整塊一次過淡入耐看
+        if (el.classList.contains('grid')) {
+          el.classList.add('reveal--group');
+          Array.prototype.forEach.call(el.children, function (child, i) {
+            child.style.setProperty('--reveal-i', Math.min(i, 8));
+          });
+        }
+        io.observe(el);
+      });
+    }
+
+    scan();
+
+    if ('MutationObserver' in window) {
+      new MutationObserver(function (muts) {
+        for (var i = 0; i < muts.length; i++) {
+          if (muts[i].addedNodes.length) { scan(); return; }
+        }
+      }).observe(document.body, { childList: true, subtree: true });
+    }
   }
 
   /* ---------- 圖片載入失敗的後備顯示 ----------

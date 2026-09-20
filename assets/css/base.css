@@ -193,13 +193,34 @@ button { font: inherit; cursor: pointer; }
   font-feature-settings: "palt" 1;
 }
 
-/* ---------- 動效：滾動淡入 ---------- */
-.reveal {
+/* ---------- 動效：滾動浮現 ----------
+   隱藏樣式一律限定在 .js-anim 之下。該 class 由 app.js 在確認可以做動畫
+   之後才加到 <html>，所以 JS 失效、或使用者要求減少動態效果時，內容一定
+   看得見，不會出現「有內容但全透明」的情況。 */
+
+.js-anim .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 500ms var(--ease-soft), transform 500ms var(--ease-soft);
+  transform: translateY(22px) scale(0.985);
+  transition: opacity 620ms var(--ease-reveal),
+              transform 720ms var(--ease-reveal);
+  will-change: opacity, transform;
 }
-.reveal.is-in { opacity: 1; transform: none; }
+.js-anim .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* 網格：容器本身不動，改為子項逐個交錯浮現，視覺上柔和得多 */
+.js-anim .reveal--group { opacity: 1; transform: none; }
+.js-anim .reveal--group > * {
+  opacity: 0;
+  transform: translateY(22px) scale(0.985);
+  transition: opacity 620ms var(--ease-reveal),
+              transform 720ms var(--ease-reveal);
+  transition-delay: calc(var(--reveal-i, 0) * 80ms);
+}
+.js-anim .reveal--group.is-in > * { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -207,6 +228,8 @@ button { font: inherit; cursor: pointer; }
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0ms !important;
   }
-  .reveal { opacity: 1 !important; transform: none !important; }
+  .reveal,
+  .reveal--group > * { opacity: 1 !important; transform: none !important; }
 }

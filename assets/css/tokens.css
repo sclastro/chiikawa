@@ -84,6 +84,8 @@
 
   /* --- 動效 --- */
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* 浮現專用：起步稍快、尾段拖長，收得住，不會有機械感 */
+  --ease-reveal: cubic-bezier(0.16, 0.84, 0.28, 1);
   --t-fast: 150ms;
   --t-base: 250ms;
 
