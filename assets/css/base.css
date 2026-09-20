@@ -218,7 +218,7 @@ button { font: inherit; cursor: pointer; }
   transform: translateY(22px) scale(0.985);
   transition: opacity 620ms var(--ease-reveal),
               transform 720ms var(--ease-reveal);
-  transition-delay: calc(var(--reveal-i, 0) * 80ms);
+  transition-delay: calc(var(--reveal-i, 0) * 65ms);
 }
 .js-anim .reveal--group.is-in > * { opacity: 1; transform: none; }
 

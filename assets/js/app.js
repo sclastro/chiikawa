@@ -154,7 +154,8 @@
         if (el.classList.contains('grid')) {
           el.classList.add('reveal--group');
           Array.prototype.forEach.call(el.children, function (child, i) {
-            child.style.setProperty('--reveal-i', Math.min(i, 8));
+            // 上限 5：八張卡的網格若逐張全額遞增，最後一張要等超過一秒才現身
+            child.style.setProperty('--reveal-i', Math.min(i, 5));
           });
         }
         io.observe(el);
