@@ -187,6 +187,74 @@
     }, true);
   }
 
+  /* ---------- 錨點跳轉的頂部留白 ----------
+     有 .anchor-nav 的頁面，該列會釘在畫面最頂。若不把它的高度算進
+     scroll-padding-top，點連結之後目標標題會被它整條蓋住（實測被遮
+     48–69px）。高度會因視窗闊度而變（窄屏文字換行），所以每次改變
+     尺寸都重新量度，不寫死數值。 */
+  function initScrollPadding() {
+    var bar = document.querySelector('.anchor-nav');
+    if (!bar) return;
+    function apply() {
+      document.documentElement.style.scrollPaddingTop =
+        (Math.ceil(bar.getBoundingClientRect().height) + 16) + 'px';
+    }
+    apply();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(apply).observe(bar);
+    } else {
+      window.addEventListener('resize', apply);
+    }
+  }
+
+  /* ---------- 頁內錨點 ----------
+     兩個問題：
+     一、浮現動畫未完成時元素仍帶 22px 位移，瀏覽器據此計算捲動位置，
+         動畫結束後內容上移，標題就鑽到錨點列底下（實測被遮 10–12px）。
+         所以跳轉前先把目標標記為已浮現，令版面在捲動前已經穩定。
+     二、以 #hash 直接開啟時，瀏覽器在各頁腳本注入內容之前就嘗試捲動，
+         結果甚麼都找不到，只停在頂部。內容到位後補做一次。 */
+  function initAnchorLinks() {
+    /* 把目標及其祖先立即定位。只加 is-in 不足夠：那只是啟動一條 720ms 的
+       過渡，瀏覽器計算捲動目標時元素仍帶著 22px 位移與 0.985 縮放（合共
+       約 26px），結果捲過了頭。必須暫停過渡並強制重排，令 transform 即時
+       歸零，之後才還原過渡設定。 */
+    function settle(el) {
+      var n = el;
+      while (n && n !== document.body) {
+        if (n.classList && n.classList.contains('reveal') && !n.classList.contains('is-in')) {
+          var touched = [n].concat(Array.prototype.slice.call(n.children));
+          var prev = touched.map(function (x) { return x.style.transition; });
+          touched.forEach(function (x) { x.style.transition = 'none'; });
+          n.classList.add('is-in');
+          void n.offsetHeight;                       // 強制重排
+          touched.forEach(function (x, i) { x.style.transition = prev[i] || ''; });
+        }
+        n = n.parentElement;
+      }
+    }
+
+    document.addEventListener('click', function (e) {
+      var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      if (!a) return;
+      var id = a.getAttribute('href').slice(1);
+      if (!id) return;
+      var t = document.getElementById(id);
+      if (t) settle(t);
+    }, true);
+
+    if (location.hash.length > 1) {
+      var t = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (t) {
+        settle(t);
+        // 跳過本次繪製，等 scroll-padding 與版面都定下來再捲
+        requestAnimationFrame(function () {
+          t.scrollIntoView({ behavior: 'auto', block: 'start' });
+        });
+      }
+    }
+  }
+
   /* ---------- 啟動 ---------- */
   function boot() {
     initImageFallback();
@@ -194,6 +262,10 @@
     buildFooter();
     initReveal();
     document.dispatchEvent(new CustomEvent('app:ready'));
+    // 必須在 app:ready 之後：角色詳情頁的 .anchor-nav 是各頁腳本在該事件
+    // 內才注入的，事件之前查不到。監聽器是同步執行，此時內容已經在場。
+    initScrollPadding();
+    initAnchorLinks();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);

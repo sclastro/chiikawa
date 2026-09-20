@@ -200,7 +200,7 @@ window.CHIIKAWA_MOVIE = {
   title: '吉伊卡哇電影版 人魚之島的秘密',
   titleJa: '映画ちいかわ 人魚の島のひみつ',
   release: '2026 年 7 月 24 日（日本）',
-  poster: 'images/stories/movie-poster.png',
+  poster: 'images/stories/movie-poster.jpg',
   facts: [
     { label: '原作・劇本', value: 'ナガノ（完全監修）' },
     { label: '監督', value: '及川啓' },

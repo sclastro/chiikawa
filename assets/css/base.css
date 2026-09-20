@@ -7,7 +7,9 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--nav-h) + 16px);
+  /* 預設只留少許空隙；有 .anchor-nav 的頁面由 app.js 依該列的實際高度
+     覆寫（手機上文字可能換行，高度不固定，寫死會再次遮住標題）。 */
+  scroll-padding-top: 16px;
 }
 
 body {
@@ -89,11 +91,14 @@ button { font: inherit; cursor: pointer; }
 @media (min-width: 768px) { .section { padding-block: var(--s-8); } }
 .section--alt { background: var(--c-bg-alt); }
 
-/* ---------- 導航 ---------- */
+/* ---------- 導航 ----------
+   刻意不設 sticky：頁內的 .anchor-nav 要釘在畫面最頂，兩條一齊黏住會在
+   手機上吃掉 120px 高度。此處原本寫過 position: sticky，但它被包在只有
+   一個導航高度的 [data-nav] 容器內，黏性範圍等於零，從來沒有生效過——
+   現在把行為寫明，不再留一條誤導的宣告。 */
 .nav {
-  position: sticky; top: 0; z-index: 100;
-  background: color-mix(in srgb, var(--c-bg) 88%, transparent);
-  backdrop-filter: blur(12px);
+  position: relative; z-index: 100;
+  background: var(--c-bg);
   border-bottom: 1px solid var(--c-border);
 }
 .nav__inner {

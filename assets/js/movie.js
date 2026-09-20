@@ -13,7 +13,7 @@
       '<section class="movie-hero"><div class="wrap">' +
         '<p class="crumbs"><a href="index.html">首頁</a><span>›</span><a href="stories.html">故事篇章</a><span>›</span>劇場版</p>' +
         '<div class="movie-hero__inner">' +
-          '<div class="movie-poster"><img src="' + esc(m.poster) + '" alt="劇場版海報的圖片位" loading="lazy"></div>' +
+          '<div class="movie-poster"><img src="' + esc(m.poster) + '" alt="' + esc(m.titleJa) + ' 海報" loading="lazy"></div>' +
           '<div>' +
             '<span class="eyebrow">劇場版</span>' +
             '<h1>' + esc(m.title) + '</h1>' +

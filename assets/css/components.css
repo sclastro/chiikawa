@@ -230,12 +230,15 @@
 }
 .empty-state h3 { color: var(--c-ink); }
 
-/* ---------- 分頁式區段標題 ---------- */
+/* ---------- 分頁式區段標題 ----------
+   釘在畫面最頂（top: 0）。主導航不是黏性的，捲動後會讓開，所以這條列
+   到頂之後不會與任何東西疊住；底色改為不透明，避免內容從底下透出。
+   配合 app.js 依實際高度設定 scroll-padding-top，點連結後標題不會被遮。 */
 .anchor-nav {
-  position: sticky; top: var(--nav-h); z-index: 50;
-  background: color-mix(in srgb, var(--c-bg) 92%, transparent);
-  backdrop-filter: blur(8px);
+  position: sticky; top: 0; z-index: 90;
+  background: var(--c-bg);
   border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 2px 8px rgba(74, 59, 49, 0.06);
   padding-block: var(--s-2);
   margin-bottom: var(--s-6);
 }
