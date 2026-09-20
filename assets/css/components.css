@@ -134,12 +134,15 @@
               box-shadow var(--t-base) var(--ease-soft);
 }
 .char-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); color: inherit; }
+/* 主題色移到頂邊：角色圖多為白底，圖片區若用主題色會變成「彩色框內一個白方塊」 */
+.char-card { border-top: 4px solid var(--char-tint, var(--c-border-strong)); }
 .char-card__media {
   aspect-ratio: 4 / 3;
-  background: var(--char-tint, var(--c-bg-alt));
+  background: var(--c-surface);       /* 統一白底，令白底角色圖無縫融合 */
   display: grid; place-items: center; overflow: hidden;
 }
-.char-card__media img { width: 100%; height: 100%; object-fit: cover; }
+/* 用 contain 保全整個角色，不會切走耳朵同腳 */
+.char-card__media img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
 .char-card__body { padding: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); flex: 1; }
 .char-card__name { font-family: var(--f-heading); font-weight: 700; font-size: 1.1rem; color: var(--c-ink-strong); }
 .char-card__ja { font-size: var(--t-tiny); color: var(--c-ink-soft); }

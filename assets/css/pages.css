@@ -69,7 +69,7 @@
   background: var(--c-surface); border: 1px solid var(--c-border);
   box-shadow: var(--sh-md); aspect-ratio: 1; max-width: 300px;
 }
-.char-hero__portrait img { width: 100%; height: 100%; object-fit: cover; }
+.char-hero__portrait img { width: 100%; height: 100%; object-fit: contain; padding: 12px; }
 .char-hero h1 { margin-bottom: var(--s-1); }
 .char-hero__ja { font-size: 1.05rem; color: var(--c-ink-soft); margin-bottom: var(--s-4); }
 .char-hero__tagline {
@@ -122,9 +122,11 @@
 .rel-item:hover { border-color: var(--c-accent-ring); transform: translateX(3px); color: inherit; }
 .rel-item__avatar {
   width: 48px; height: 48px; border-radius: var(--r-full);
-  background: var(--rel-tint, var(--c-bg-alt)); overflow: hidden; flex-shrink: 0;
+  background: var(--c-surface);                            /* 白底，配合白底角色圖 */
+  border: 2px solid var(--rel-tint, var(--c-border));      /* 主題色改以圓環呈現 */
+  overflow: hidden; flex-shrink: 0;
 }
-.rel-item__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.rel-item__avatar img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
 .rel-item__name { font-family: var(--f-heading); font-weight: 700; display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: baseline; }
 .rel-item__type { font-size: var(--t-tiny); color: var(--c-accent-deep); font-weight: 700; }
 .rel-item p { font-size: var(--t-small); color: var(--c-ink-soft); line-height: var(--lh-normal); margin: var(--s-1) 0 0; }
@@ -201,9 +203,9 @@
 .quiz-result__avatar {
   width: 140px; height: 140px; margin: 0 auto var(--s-4);
   border-radius: var(--r-full); overflow: hidden;
-  background: var(--c-bg-alt); border: 3px solid var(--c-surface); box-shadow: var(--sh-md);
+  background: var(--c-surface); border: 3px solid var(--c-border); box-shadow: var(--sh-md);
 }
-.quiz-result__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.quiz-result__avatar img { width: 100%; height: 100%; object-fit: contain; padding: 10px; }
 
 /* ================= 人生參照 ================= */
 .ref-domain { padding-block: var(--s-7); border-bottom: 1px solid var(--c-border); }
@@ -223,8 +225,11 @@
 .ref-lesson p, .ref-lesson li { max-width: 64ch; }
 .ref-lesson:last-child { margin-bottom: 0; }
 .ref-lesson__who { display: flex; align-items: center; gap: var(--s-3); margin-bottom: var(--s-4); flex-wrap: wrap; }
-.ref-lesson__avatar { width: 40px; height: 40px; border-radius: var(--r-full); overflow: hidden; background: var(--c-bg-alt); flex-shrink: 0; }
-.ref-lesson__avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ref-lesson__avatar {
+  width: 40px; height: 40px; border-radius: var(--r-full); overflow: hidden;
+  background: var(--c-surface); border: 2px solid var(--c-border); flex-shrink: 0;
+}
+.ref-lesson__avatar img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
 .ref-step { margin-bottom: var(--s-4); }
 .ref-step:last-child { margin-bottom: 0; }
 .ref-step__label {
