@@ -15,7 +15,10 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # 群組含分支名：非預設分支的 run 不會取消預設分支上有效的 run。
+  # 曾經因為共用一個 pages 群組，main 上注定失敗的 run 把預設分支上
+  # 正常的 run 取消咗，結果整次部署冇發生。
+  group: pages-${{ github.ref_name }}
   # 設為 true：新的部署有權中止仍在進行中的舊部署。
   # GitHub 的範本預設 false，但那會令一個卡住的 run 無限期霸佔隊列，
   # 令其後所有部署開不了。這個網站是純靜態站，中途中止沒有風險。
@@ -24,6 +27,9 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # github-pages environment 只准預設分支部署。非預設分支的 push
+    # 在此跳過（顯示為 skipped）而非失敗，毋須理會邊條分支係預設。
+    if: github.ref_name == github.event.repository.default_branch
     # 純靜態站，正常兩分鐘內完成；設上限避免卡住的 run 長時間霸佔隊列。
     timeout-minutes: 10
     environment:
