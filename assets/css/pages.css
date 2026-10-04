@@ -20,7 +20,14 @@
 @media (min-width: 900px) { .home-hero { padding-block: var(--s-8) var(--s-9); } }
 .home-hero__grid { display: grid; gap: var(--s-5); align-items: center; }
 @media (min-width: 900px) { .home-hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: var(--s-7); } .home-hero__stage-col { order: 2; } }
-.home-hero h1 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3rem); line-height: 1.32; margin-bottom: var(--s-4); }
+/* 第二行「過著一點都不輕鬆的生活。」共 12 字：字級按可用闊度計，確保整行放得下，不會剩「活。」孤字 */
+.home-hero h1 { font-size: clamp(1.5rem, calc((100vw - 2 * var(--gutter)) / 12.6), 2.4rem); line-height: 1.32; margin-bottom: var(--s-4); }
+@media (min-width: 900px) { .home-hero h1 { font-size: 2.2rem; } }
+/* 支援容器單位的瀏覽器：直接按文字欄的闊度計算 */
+.home-hero__copy { container-type: inline-size; }
+@supports (font-size: 1cqi) {
+  .home-hero h1 { font-size: clamp(1.5rem, 100cqi / 12.6, 3rem); }
+}
 .home-hero__sub { color: var(--c-ink); font-size: clamp(0.98rem, 0.95rem + 0.3vw, 1.15rem); max-width: 34em; margin-bottom: var(--s-5); }
 .home-hero .searchbar { margin-bottom: var(--s-4); }
 .quick { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
