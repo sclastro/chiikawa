@@ -65,7 +65,7 @@
       var a = POS[e.a], b = POS[e.b];
       var line = el('line', {
         x1: a[0], y1: a[1], x2: b[0], y2: b[1],
-        stroke: '#D3C4AE', 'stroke-width': 2, 'stroke-linecap': 'round',
+        stroke: '#D9CCB8', 'stroke-width': 1.6, 'stroke-linecap': 'round',
         class: 'relmap-edge'
       });
       line.dataset.a = e.a;
@@ -82,7 +82,7 @@
       g.dataset.id = c.id;
       g.appendChild(el('circle', {
         cx: p[0], cy: p[1], r: R,
-        fill: c.tint, stroke: '#FFFFFF', 'stroke-width': 3
+        fill: c.tint, stroke: '#FFFFFF', 'stroke-width': 4
       }));
       var label = el('text', {
         x: p[0], y: p[1] + R + 17, 'text-anchor': 'middle'
@@ -109,20 +109,23 @@
       var rels = (c.relations || []).map(function (r) {
         var o = App.char(r.id);
         if (!o) return '';
-        return '<a class="rel-item" href="' + App.link(o.id) + '" style="--rel-tint:' + esc(o.tint) + ';padding:var(--s-3)">' +
-          '<span class="rel-item__avatar" style="width:36px;height:36px">' + App.avatar(o) + '</span>' +
+        return '<a class="rel-item" href="' + App.link(o.id) + '">' +
+          App.face(o, 36) +
           '<span><span class="rel-item__name" style="font-size:var(--t-small)">' + esc(o.name) +
             '<span class="rel-item__type">' + esc(r.type) + '</span></span>' +
             '<p style="font-size:var(--t-tiny)">' + esc(r.body) + '</p></span></a>';
       }).join('');
 
       panel.innerHTML =
-        '<span class="eyebrow">' + esc(c.tierLabel) + '</span>' +
-        '<h3 style="font-size:1.15rem;margin-bottom:var(--s-1)">' + esc(c.name) + '</h3>' +
-        '<p class="ja" style="font-size:var(--t-tiny);color:var(--c-ink-soft)">' + esc(c.nameJa) + '</p>' +
+        '<div style="display:flex;gap:var(--s-3);align-items:center;margin-bottom:var(--s-3)">' +
+          App.face(c, 56) +
+          '<div><span class="eyebrow eyebrow--plain" style="margin:0">' + esc(c.tierLabel) + '</span>' +
+          '<h3 style="font-size:1.15rem;margin:0">' + esc(c.name) +
+            ' <span class="ja" style="font-size:var(--t-tiny);color:var(--c-ink-soft);font-weight:500">' + esc(c.nameJa) + '</span></h3></div>' +
+        '</div>' +
         '<p style="font-size:var(--t-small);line-height:var(--lh-normal)">' + esc(c.tagline) + '</p>' +
         '<div class="rel-list" style="margin:var(--s-4) 0">' + rels + '</div>' +
-        '<a class="btn btn--primary" href="' + App.link(c.id) + '">睇完整檔案</a>';
+        '<a class="btn btn--primary" href="' + App.link(c.id) + '">看完整檔案</a>';
     }
 
     function setFocus(id) {

@@ -11,7 +11,7 @@
 
     host.innerHTML =
       '<section class="movie-hero"><div class="wrap">' +
-        '<p class="crumbs"><a href="index.html">首頁</a><span>›</span><a href="stories.html">故事篇章</a><span>›</span>劇場版</p>' +
+        '<p class="crumbs"><a href="index.html">首頁</a><span aria-hidden="true">／</span><a href="stories.html">故事篇章</a><span aria-hidden="true">／</span>劇場版</p>' +
         '<div class="movie-hero__inner">' +
           '<div class="movie-poster"><img src="' + esc(m.poster) + '" alt="' + esc(m.titleJa) + ' 海報" loading="lazy"></div>' +
           '<div>' +
@@ -19,7 +19,7 @@
             '<h1>' + esc(m.title) + '</h1>' +
             '<p class="char-hero__ja ja">' + esc(m.titleJa) + '</p>' +
             '<p class="lede">' + esc(m.release) + '公開。改編自原作長篇「セイレーン編」。</p>' +
-            '<div class="card" style="margin-top:var(--s-5);max-width:560px"><dl class="datalist">' +
+            '<div class="card" style="margin-top:var(--s-5);max-width:560px;padding-block:var(--s-2)"><dl class="datalist">' +
               m.facts.map(function (f) {
                 return '<div><dt>' + esc(f.label) + '</dt><dd>' + esc(f.value) + '</dd></div>';
               }).join('') +
@@ -32,9 +32,9 @@
         '<span class="eyebrow">劇情介紹</span>' +
         '<h2>故事由一張太過吸引的傳單開始</h2>' +
         '<p>' + esc(m.synopsis) + '</p>' +
-        '<div class="note" style="margin-top:var(--s-5)"><strong>觀影提示：</strong>' +
+        '<p class="note" style="margin-top:var(--s-5)"><span><strong>觀影提示：</strong>' +
           '以下看點分析涉及原作「セイレーン編」的整體結構與結局處理方式。' +
-          '若你打算先看電影，建議看完再回來讀。</div>' +
+          '若你打算先看電影，建議看完再回來讀。</span></p>' +
       '</div></section>' +
 
       '<section class="section section--alt"><div class="wrap">' +
@@ -45,7 +45,7 @@
         '<div class="grid grid--2 reveal">' +
           m.points.map(function (p, i) {
             return '<article class="card">' +
-              '<span class="eyebrow">看點 ' + (i + 1) + '</span>' +
+              '<span class="point-num">0' + (i + 1) + '</span>' +
               '<h3>' + esc(p.title) + '</h3>' +
               '<p style="margin:0">' + esc(p.body) + '</p>' +
             '</article>';
@@ -78,7 +78,7 @@
         '<h2>延伸閱讀</h2>' +
         '<p>原作篇章的完整脈絡整理，包括中段的轉折與結局的處理方式。</p>' +
         '<p><a class="btn btn--primary" href="stories.html#arc-seiren">讀「海妖之島篇」完整整理</a></p>' +
-        '<div class="note" style="margin-top:var(--s-5)">' + esc(m.note) + '</div>' +
+        '<p class="note" style="margin-top:var(--s-5)"><span>' + esc(m.note) + '</span></p>' +
       '</div></section>';
   });
 })();
