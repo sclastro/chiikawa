@@ -34,8 +34,7 @@
     function progress() {
       var pct = Math.round((step / Q.questions.length) * 100);
       return '<div class="quiz-progress"><div class="quiz-progress__bar" style="width:' + pct + '%"></div></div>' +
-             '<p style="font-size:var(--t-tiny);color:var(--c-ink-soft);margin-bottom:var(--s-4)">' +
-             '第 ' + (step + 1) + ' 題／共 ' + Q.questions.length + ' 題</p>';
+             '<p class="quiz-step">第 ' + (step + 1) + ' 題／共 ' + Q.questions.length + ' 題</p>';
     }
 
     function renderQuestion() {
@@ -107,18 +106,18 @@
           '<div class="quiz-result__avatar">' + App.avatar(c) + '</div>' +
           '<h2 style="margin-bottom:var(--s-1)">' + esc(c.name) + '</h2>' +
           '<p class="ja" style="color:var(--c-ink-soft);font-size:var(--t-small)">' + esc(c.nameJa) + '</p>' +
-          '<p style="font-family:var(--f-heading);font-size:1.15rem;color:var(--c-ink-strong);line-height:var(--lh-normal);margin:var(--s-4) 0">' +
+          '<p style="font-family:var(--f-display);font-size:1.15rem;color:var(--c-ink-strong);line-height:var(--lh-normal);margin:var(--s-4) 0">' +
             esc(v.headline) + '</p>' +
         '</div>' +
         '<p style="text-align:left">' + esc(v.body) + '</p>' +
-        '<div class="scene__why" style="text-align:left">' +
-          '<strong>建議由這個領域入手：</strong>' + esc(d.label) +
-          '　<a href="reference.html#' + esc(v.domain) + '">去睇對應嘅人生參照 →</a>' +
+        '<div class="callout" style="text-align:left">' +
+          '<strong>建議由這個領域入手</strong>' + esc(d.label) +
+          '　<a href="reference.html#' + esc(v.domain) + '">看對應的人生參照 →</a>' +
         '</div>' +
         (c2 ? '<p style="font-size:var(--t-small);color:var(--c-ink-soft);margin-top:var(--s-5);text-align:left">' +
               '你同時有唔少<a href="' + App.link(c2.id) + '">' + esc(c2.name) + '</a>嘅特質。' +
               '兩個角色嘅做法可以對照住睇。</p>' : '') +
-        '<p style="margin-top:var(--s-6);display:flex;flex-wrap:wrap;gap:var(--s-3)">' +
+        '<p class="btn-row" style="margin-top:var(--s-6)">' +
           '<a class="btn btn--primary" href="' + App.link(c.id) + '">睇' + esc(c.name) + '嘅完整檔案</a>' +
           '<button class="btn btn--ghost" type="button" data-restart>再玩一次</button>' +
         '</p>';

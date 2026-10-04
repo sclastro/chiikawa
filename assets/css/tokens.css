@@ -1,6 +1,7 @@
 /* ==========================================================================
    設計 token — 單一真實來源
-   風格：日系柔和粉彩 × 米白大地色，只做淺色主題
+   風格：米白紙感 × 大地色，標題用宋體作編輯感，介面元素保持圓潤
+   只做淺色主題
    ========================================================================== */
 
 :root {
@@ -13,8 +14,9 @@
   --c-ink-strong:    #33261E;   /* 標題 */
   --c-ink-soft:      #756558;   /* 次級文字 — 最低 4.79:1（交替底色上） */
   --c-ink-faint:     #9C8E80;   /* 僅用於大字或裝飾，不用於正文 */
-  --c-border:        #E5DACA;
+  --c-border:        #E8DFD1;
   --c-border-strong: #D3C4AE;
+  --c-line:          rgba(74, 59, 49, 0.10);   /* 髮絲線 */
 
   /* --- 主色（琥珀／赤陶）--- */
   --c-accent:        #A05027;   /* 連結、強調 — 最低 4.59:1（琥珀淺底上） */
@@ -35,28 +37,33 @@
   --c-warn:    #A8742A;
   --c-danger:  #A94A3D;
 
-  /* --- 字體 --- */
-  --f-heading: "Varela Round", "Zen Maru Gothic", "Noto Sans TC",
-               "PingFang TC", "Microsoft JhengHei", sans-serif;
+  /* --- 字體 ---
+     display：大標題用宋體，帶出「圖鑑／刊物」的編輯感
+     heading：小標題與介面文字用黑體粗字，清楚易掃
+     body：拉丁字用 Nunito Sans，中文落到 Noto Sans TC */
+  --f-display: "Noto Serif TC", "Songti TC", "PMingLiU", "MingLiU", serif;
+  --f-heading: "Nunito Sans", "Noto Sans TC", "PingFang TC",
+               "Microsoft JhengHei", sans-serif;
   --f-body:    "Nunito Sans", "Noto Sans TC", "PingFang TC",
                "Microsoft JhengHei", sans-serif;
   --f-ja:      "Zen Maru Gothic", "Hiragino Maru Gothic ProN",
                "Yu Gothic", "Noto Sans JP", sans-serif;
 
   /* --- 字級（手機優先，以 clamp 自適應）--- */
-  --t-display: clamp(2rem, 1.35rem + 3.2vw, 3.5rem);
-  --t-h1:      clamp(1.7rem, 1.25rem + 2.2vw, 2.7rem);
-  --t-h2:      clamp(1.4rem, 1.15rem + 1.25vw, 2rem);
-  --t-h3:      clamp(1.15rem, 1.03rem + 0.6vw, 1.45rem);
+  --t-display: clamp(1.85rem, 1.3rem + 2.8vw, 3.25rem);
+  --t-h1:      clamp(1.65rem, 1.3rem + 1.8vw, 2.5rem);
+  --t-h2:      clamp(1.3rem, 1.12rem + 0.9vw, 1.75rem);
+  --t-h3:      clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
   --t-body:    clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
   --t-small:   0.875rem;
   --t-tiny:    0.78125rem;
+  --t-micro:   0.6875rem;
 
   --lh-tight:  1.3;
-  --lh-normal: 1.55;
+  --lh-normal: 1.6;
   --lh-loose:  1.9;   /* 中文長文閱讀 */
 
-  /* --- 間距（standard density 4/10）--- */
+  /* --- 間距 --- */
   --s-1:  0.25rem;
   --s-2:  0.5rem;
   --s-3:  0.75rem;
@@ -69,22 +76,20 @@
 
   /* --- 圓角 --- */
   --r-sm:   8px;
-  --r-md:   14px;
-  --r-lg:   20px;
-  --r-xl:   28px;
+  --r-md:   12px;
+  --r-lg:   18px;
+  --r-xl:   24px;
   --r-full: 999px;
 
-  /* --- 陰影（柔和雙層）--- */
-  --sh-sm: 0 1px 2px rgba(74, 59, 49, 0.05),
-           0 2px 6px rgba(74, 59, 49, 0.04);
-  --sh-md: 0 2px 4px rgba(74, 59, 49, 0.05),
-           0 8px 20px rgba(74, 59, 49, 0.07);
-  --sh-lg: 0 4px 8px rgba(74, 59, 49, 0.05),
-           0 16px 40px rgba(74, 59, 49, 0.09);
+  /* --- 陰影（極淡，靠髮絲線分層，陰影只作浮起提示）--- */
+  --sh-sm: 0 1px 2px rgba(74, 59, 49, 0.04);
+  --sh-md: 0 1px 2px rgba(74, 59, 49, 0.04),
+           0 6px 18px rgba(74, 59, 49, 0.06);
+  --sh-lg: 0 2px 6px rgba(74, 59, 49, 0.05),
+           0 18px 44px rgba(74, 59, 49, 0.12);
 
   /* --- 動效 --- */
   --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
-  /* 浮現專用：起步稍快、尾段拖長，收得住，不會有機械感 */
   --ease-reveal: cubic-bezier(0.16, 0.84, 0.28, 1);
   --t-fast: 150ms;
   --t-base: 250ms;
@@ -93,9 +98,15 @@
   --w-page:  1180px;
   --w-text:  680px;   /* 長文最佳閱讀寬度 */
   --gutter:  16px;
-  --nav-h:   64px;
+  --nav-h:   56px;
+  --bar-h:   62px;    /* 手機底部分頁列 */
+  --sticky-top: 0px;  /* 頁內分頁列釘住的位置：手機貼頂，桌面讓出頂欄 */
+  --frost:   rgba(250, 246, 238, 0.86);
 }
 
 @media (min-width: 768px) {
   :root { --gutter: 32px; }
+}
+@media (min-width: 1000px) {
+  :root { --nav-h: 64px; --bar-h: 0px; --sticky-top: var(--nav-h); }
 }
