@@ -77,7 +77,7 @@
 
     /* ---- 基本檔案 ---- */
     html += panel('profile',
-      '<div class="card" style="max-width:var(--w-text)"><dl class="datalist">' +
+      '<div class="card tape profile-card" style="--tape:' + esc(c.tint) + '"><dl class="datalist">' +
         (c.profile || []).map(function (p) {
           return '<div><dt>' + esc(p.label) + '</dt><dd>' + esc(p.value) + '</dd></div>';
         }).join('') +
@@ -167,6 +167,7 @@
       '</section>';
 
     main.innerHTML = html;
+    App.deco(main.querySelector('.char-hero'), { kinds: ['sparkle', 'sparkle', 'heart', 'flower', 'dot'], n: 10, seed: c.id });
     App.initTabs(main.querySelector('.tabbar'));
 
     /* 角色切換帶：把目前角色捲到可見處 */

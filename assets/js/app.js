@@ -131,7 +131,7 @@
     host.innerHTML =
       '<nav class="nav" aria-label="主導航"><div class="wrap"><div class="nav__inner">' +
         '<a class="nav__brand" href="index.html" aria-label="吉伊卡哇圖鑑 首頁">' +
-          '<span class="nav__mark">' + App.icon('heart', 18) + '</span>' +
+          '<span class="nav__mark"><img src="images/characters/chiikawa.png" alt="" data-tint="#FFD9E0"></span>' +
           '<span class="nav__name"><b>吉伊卡哇圖鑑</b><small>Chiikawa Archive</small></span>' +
         '</a>' +
         '<ul class="nav__links">' + links + '</ul>' +
@@ -161,7 +161,11 @@
     if (!host) return;
     var esc = App.esc;
     host.innerHTML =
-      '<footer class="footer"><div class="wrap">' +
+      '<footer class="footer">' +
+        '<div class="footer__flowers" aria-hidden="true">' + [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+          return DECO.flower(['#FFD9E0', '#FFEFB0', '#E9DEF7', '#D6EAF8'][i % 4]);
+        }).join('') + '</div>' +
+        '<div class="wrap">' +
         '<div class="footer__top">' +
           '<div class="footer__brand"><b>吉伊卡哇圖鑑</b>' +
             '<p>以繁體中文撰寫的非官方資料站，整理角色、故事、世界觀，並嘗試從中抽取可以應用在日常生活的思考。</p></div>' +
@@ -578,7 +582,7 @@
       if (n.classList && n.classList.contains('reveal') && !n.classList.contains('is-in')) {
         var touched = [n].concat(Array.prototype.slice.call(n.children));
         touched.forEach(function (x) { x.style.transition = 'none'; });
-        n.classList.add('is-in');
+        n.classList.add('is-in', 'reveal-done');
         void n.offsetHeight;
         touched.forEach(function (x) { x.style.transition = ''; });
       }
@@ -635,8 +639,10 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
+        var t = e.target;
+        t.classList.add('is-in');
+        io.unobserve(t);
+        setTimeout(function () { t.classList.add('reveal-done'); }, 1300);
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
 
@@ -663,6 +669,168 @@
     }
   }
 
+  /* ==========================================================================
+     裝飾：閃星、心心、小花、音符、雲（全部 aria-hidden）
+     ========================================================================== */
+  var OUT = '#6B5447';
+  var DECO = {
+    sparkle: function (c) {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.5c.9 5.6 4.9 9.6 10.5 10.5-5.6.9-9.6 4.9-10.5 10.5C11.1 16.9 7.1 12.9 1.5 12 7.1 11.1 11.1 7.1 12 1.5z" fill="' + c + '" stroke="' + OUT + '" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+    },
+    heart: function (c) {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.9-8-11a4.4 4.4 0 0 1 8-2.6 4.4 4.4 0 0 1 8 2.6c0 6.1-8 11-8 11z" fill="' + c + '" stroke="' + OUT + '" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+    },
+    flower: function (c) {
+      return '<svg viewBox="0 0 28 28" aria-hidden="true"><g stroke="' + OUT + '" stroke-width="1.4" fill="' + c + '">' +
+        '<circle cx="14" cy="6.5" r="5"/><circle cx="21.5" cy="12" r="5"/><circle cx="18.5" cy="21" r="5"/>' +
+        '<circle cx="9.5" cy="21" r="5"/><circle cx="6.5" cy="12" r="5"/></g>' +
+        '<circle cx="14" cy="14" r="4" fill="#FFE58A" stroke="' + OUT + '" stroke-width="1.4"/></svg>';
+    },
+    note: function (c) {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18.5a3 2.5 0 1 1-3-2.5 3 3 0 0 1 3 .6V4.5l10-2v12a3 2.5 0 1 1-3-2.5 3 3 0 0 1 3 .6" fill="' + c + '" stroke="' + OUT + '" stroke-width="1.3" stroke-linejoin="round"/></svg>';
+    },
+    dot: function (c) {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="' + c + '" stroke="' + OUT + '" stroke-width="1.3"/></svg>';
+    },
+    bubble: function () {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="rgba(255,255,255,.55)" stroke="' + OUT + '" stroke-width="1.2"/><path d="M8 9.5a4.5 4.5 0 0 1 3.5-2.8" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    }
+  };
+  var PASTELS = ['#FFD9E0', '#FFEFB0', '#D6EAF8', '#D9EFD2', '#E9DEF7', '#FFE2CF'];
+  App.DECO = DECO;
+
+  /** 以種子產生的偽隨機數：同一頁每次排位一樣，不會每次重新整理都亂跳 */
+  function seeded(seed) {
+    var x = 0;
+    for (var i = 0; i < seed.length; i++) x = (x * 31 + seed.charCodeAt(i)) >>> 0;
+    return function () { x = (x * 1664525 + 1013904223) >>> 0; return x / 4294967296; };
+  }
+
+  /**
+   * 在容器內鋪一層飄浮裝飾。
+   * opts.kinds：使用的圖形；opts.n：數量；opts.avoid：避開的區域（左側文字位置）
+   */
+  App.deco = function (host, opts) {
+    if (!host || host.querySelector(':scope > .deco')) return;
+    opts = opts || {};
+    var kinds = opts.kinds || ['sparkle', 'sparkle', 'heart', 'flower', 'dot'];
+    /* 手機上文字佔滿全幅，右邊一欄也會疊字，只用頂部與底部，數量減少 */
+    var narrow = window.innerWidth < 760;
+    var n = Math.round((opts.n || 9) * (narrow && !opts.full ? 0.6 : 1));
+    var rnd = seeded((opts.seed || App.page()) + (host.className || ''));
+    var layer = document.createElement('div');
+    layer.className = 'deco';
+    layer.setAttribute('aria-hidden', 'true');
+    var html = '';
+    for (var i = 0; i < n; i++) {
+      var k = kinds[Math.floor(rnd() * kinds.length)];
+      var color = PASTELS[Math.floor(rnd() * PASTELS.length)];
+      if (k === 'sparkle' && rnd() < 0.5) color = '#FFE58A';
+      /* 只放在邊緣地帶（右邊一欄、頂部一條、底部一條），不疊在文字上；
+         full 用於本身沒有文字的舞台，可以全幅散佈 */
+      var left, top, zone = rnd();
+      if (opts.full) { left = rnd() * 94; top = rnd() * 60 + 2; }
+      else if (zone < 0.5 && !narrow) { left = 88 + rnd() * 9; top = rnd() * 86 + 4; }
+      else if (zone < 0.5) { left = 60 + rnd() * 36; top = 2 + rnd() * 6; }
+      else if (zone < 0.8) { left = 30 + rnd() * 66; top = 2 + rnd() * 7; }
+      else { left = rnd() * 96; top = 90 + rnd() * 5; }
+      var size = (k === 'dot' ? 8 + rnd() * 8 : 14 + rnd() * (opts.big ? 22 : 14));
+      var anim = k === 'sparkle' ? 'deco__twinkle' : 'deco__float';
+      html += '<span class="' + anim + '" style="left:' + left.toFixed(1) + '%;top:' + top.toFixed(1) + '%;width:' + size.toFixed(0) +
+        'px;height:' + size.toFixed(0) + 'px;animation-delay:-' + (rnd() * 4).toFixed(2) + 's">' +
+        (DECO[k] ? DECO[k](color) : '') + '</span>';
+    }
+    layer.innerHTML = html;
+    host.classList.add('has-deco');
+    host.insertBefore(layer, host.firstChild);
+  };
+
+  /* 頁首吉祥物：<header class="page-head" data-mascot="角色id" data-say="對白"> */
+  function initMascots() {
+    var heads = document.querySelectorAll('.page-head');
+    Array.prototype.forEach.call(heads, function (h) {
+      App.deco(h, { n: 10 });
+      var id = h.getAttribute('data-mascot');
+      var inner = h.querySelector('.page-head__inner');
+      if (!id || !inner) return;
+      var img = h.getAttribute('data-mascot-img') || ('images/characters/' + id + '.png');
+      var say = h.getAttribute('data-say');
+      var m = document.createElement('div');
+      m.className = 'mascot';
+      m.setAttribute('aria-hidden', 'true');
+      m.innerHTML = (say ? '<span class="bubble">' + App.esc(say) + '</span>' : '') +
+        '<span class="mascot__face"><img src="' + App.esc(img) + '" alt="" data-tint="#fff"></span>';
+      inner.appendChild(m);
+    });
+  }
+
+  /* ==========================================================================
+     圖片底色：角色圖都不是透明底，有的是白底、有的是草地或粉紅底。
+     讀取圖片左上角的顏色，填到相框上，令圖與框融為一體，不會出現
+     「白框裡面一塊綠色方塊」。以本機檔案開啟時 canvas 讀不到像素，
+     就保持白色，不影響顯示。
+     ========================================================================== */
+  var bgCache = {};
+  function frameColor(img) {
+    var src = img.currentSrc || img.src;
+    if (bgCache[src] !== undefined) return bgCache[src];
+    var color = null;
+    try {
+      var c = document.createElement('canvas');
+      c.width = 4; c.height = 4;
+      var x = c.getContext('2d');
+      x.drawImage(img, 0, 0, 4, 4, 0, 0, 4, 4);
+      var d = x.getImageData(1, 1, 1, 1).data;
+      if (d[3] > 200) color = 'rgb(' + d[0] + ',' + d[1] + ',' + d[2] + ')';
+    } catch (err) { color = null; }
+    bgCache[src] = color;
+    return color;
+  }
+  function paintFrame(img) {
+    if (!img || img.tagName !== 'IMG' || !img.hasAttribute('data-tint') || !img.naturalWidth) return;
+    var color = frameColor(img);
+    if (color && img.parentNode && img.parentNode.style) img.parentNode.style.backgroundColor = color;
+  }
+  function initFramePaint() {
+    document.addEventListener('load', function (e) { paintFrame(e.target); }, true);
+  }
+  function paintLoaded() {
+    Array.prototype.forEach.call(document.querySelectorAll('img[data-tint]'), function (img) {
+      if (img.complete) paintFrame(img);
+    });
+  }
+
+  /* ==========================================================================
+     點擊閃星：按下按鈕、卡片時散出幾粒小星星
+     ========================================================================== */
+  App.burst = function (x, y, n, spread) {
+    if (reduceMotion) return;
+    var b = document.createElement('div');
+    b.className = 'burst';
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+    var html = '';
+    n = n || 7;
+    spread = spread || 46;
+    for (var i = 0; i < n; i++) {
+      var a = (Math.PI * 2 * i) / n + Math.random() * 0.6;
+      var r = spread * (0.6 + Math.random() * 0.6);
+      html += '<i style="--bx:' + (Math.cos(a) * r).toFixed(0) + 'px;--by:' + (Math.sin(a) * r).toFixed(0) +
+        'px;--bc:' + PASTELS.concat(['#FFE58A', '#E2768B'])[i % 8] + ';animation-delay:' + (Math.random() * 60).toFixed(0) + 'ms"></i>';
+    }
+    b.innerHTML = html;
+    document.body.appendChild(b);
+    setTimeout(function () { b.remove(); }, 900);
+  };
+  function initTapBurst() {
+    var SEL = '.btn, .tile, .char-card, .chip, .tabnav a, .tabnav button, .searchbar, .quiz-option, [role="tab"], .lead-card, .pager a, .moment';
+    document.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      var t = e.target.closest ? e.target.closest(SEL) : null;
+      if (t) App.burst(e.clientX, e.clientY, 7, 40);
+    }, { passive: true });
+  }
+
   /* ---------- 圖片載入失敗的後備顯示 ---------- */
   function initImageFallback() {
     document.addEventListener('error', function (e) {
@@ -676,12 +844,16 @@
   /* ---------- 啟動 ---------- */
   function boot() {
     initImageFallback();
+    initFramePaint();
+    initTapBurst();
     buildNav();
     buildFooter();
     initSheetTriggers();
     initAccordionTools();
     initReveal();
+    initMascots();
     document.dispatchEvent(new CustomEvent('app:ready'));
+    paintLoaded();
     // 必須在 app:ready 之後：分頁列與內容是各頁腳本在該事件內才注入的
     initScrollPadding();
     initAnchors();

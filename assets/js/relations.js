@@ -25,7 +25,7 @@
     'hitoha-futaba': [740, 80]
   };
 
-  var R = 30;
+  var R = 31;
 
   document.addEventListener('app:ready', function () {
     var esc   = App.esc;
@@ -56,6 +56,8 @@
       return n;
     }
 
+    var defs = el('defs', {});
+    svg.appendChild(defs);
     var gEdges = el('g', {});
     var gNodes = el('g', {});
     svg.appendChild(gEdges);
@@ -65,7 +67,7 @@
       var a = POS[e.a], b = POS[e.b];
       var line = el('line', {
         x1: a[0], y1: a[1], x2: b[0], y2: b[1],
-        stroke: '#D9CCB8', 'stroke-width': 1.6, 'stroke-linecap': 'round',
+        stroke: '#C9B2A0', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-dasharray': '2 6',
         class: 'relmap-edge'
       });
       line.dataset.a = e.a;
@@ -80,12 +82,27 @@
         'aria-label': c.name + '（' + c.nameJa + '），查看關係'
       });
       g.dataset.id = c.id;
+      /* 角色頭像：外圈代表色光暈 + 圓形裁切的角色圖 + 啡色描邊 */
       g.appendChild(el('circle', {
-        cx: p[0], cy: p[1], r: R,
-        fill: c.tint, stroke: '#FFFFFF', 'stroke-width': 4
+        cx: p[0], cy: p[1], r: R + 6,
+        fill: c.tint, stroke: '#6B5447', 'stroke-width': 1.5
       }));
+      var face = el('g', { class: 'relmap-face' });
+      var clip = el('clipPath', { id: 'relclip-' + c.id });
+      clip.appendChild(el('circle', { cx: p[0], cy: p[1], r: R }));
+      defs.appendChild(clip);
+      face.appendChild(el('circle', { cx: p[0], cy: p[1], r: R, fill: '#fff' }));
+      var img = el('image', {
+        href: c.image, x: p[0] - R, y: p[1] - R, width: R * 2, height: R * 2,
+        preserveAspectRatio: 'xMidYMid slice', 'clip-path': 'url(#relclip-' + c.id + ')'
+      });
+      face.appendChild(img);
+      face.appendChild(el('circle', {
+        cx: p[0], cy: p[1], r: R, fill: 'none', stroke: '#6B5447', 'stroke-width': 2, class: 'relmap-ring'
+      }));
+      g.appendChild(face);
       var label = el('text', {
-        x: p[0], y: p[1] + R + 17, 'text-anchor': 'middle'
+        x: p[0], y: p[1] + R + 24, 'text-anchor': 'middle'
       });
       label.textContent = c.name;
       g.appendChild(label);
