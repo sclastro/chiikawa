@@ -22,7 +22,7 @@
           '</div>' +
           '<div class="grid grid--2">' +
             g.entries.map(function (e, i) {
-              return '<article class="card world-entry" id="' + esc(g.id) + '-' + (i + 1) + '">' +
+              return '<article class="card world-entry tape" id="' + esc(g.id) + '-' + (i + 1) + '" style="--tape:' + esc(g.tint) + ';--tape-r:' + (i % 2 ? '4deg' : '-4deg') + '">' +
                 '<span class="world-entry__badge" style="--badge-tint:' + esc(g.tint) + '">' + esc(e.badge) + '</span>' +
                 '<h3>' + esc(e.title) + '</h3>' +
                 '<p>' + esc(e.body) + '</p>' +

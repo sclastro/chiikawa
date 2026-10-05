@@ -44,7 +44,7 @@
         '</div>' +
         '<div class="grid grid--2 reveal">' +
           m.points.map(function (p, i) {
-            return '<article class="card">' +
+            return '<article class="card tape" style="--tape:' + ['#D6EAF8', '#D9EFD2', '#FFD9E0', '#FFEFB0'][i % 4] + '">' +
               '<span class="point-num">0' + (i + 1) + '</span>' +
               '<h3>' + esc(p.title) + '</h3>' +
               '<p style="margin:0">' + esc(p.body) + '</p>' +
@@ -80,5 +80,6 @@
         '<p><a class="btn btn--primary" href="stories.html#arc-seiren">讀「海妖之島篇」完整整理</a></p>' +
         '<p class="note" style="margin-top:var(--s-5)"><span>' + esc(m.note) + '</span></p>' +
       '</div></section>';
+    App.deco(host.querySelector('.movie-hero'), { kinds: ['bubble', 'bubble', 'bubble', 'sparkle'], n: 12, big: true });
   });
 })();

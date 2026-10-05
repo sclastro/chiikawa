@@ -9,7 +9,8 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23F4CFC6'/%3E%3Cpath d='M16 25s-8-5.2-8-11.4A4.6 4.6 0 0 1 16 10a4.6 4.6 0 0 1 8 3.6C24 19.8 16 25 16 25z' fill='%23B45E2E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=Nunito+Sans:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Huninn&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/components.css">
@@ -21,22 +22,36 @@
 
 <main id="main">
 
-  <!-- ============ Hero：一句定調 + 搜尋 ============ -->
-  <section class="home-hero">
+  <!-- ============ Hero：拱形舞台上的三主角 + 一句定調 + 搜尋 ============ -->
+  <section class="home-hero scallop">
     <div class="wrap">
       <div class="home-hero__grid">
-        <div>
+        <div class="home-hero__stage-col">
+          <div class="stage" data-home-stage>
+            <span class="stage__sun" aria-hidden="true"></span>
+            <span class="stage__cloud stage__cloud--1" aria-hidden="true"></span>
+            <span class="stage__cloud stage__cloud--2" aria-hidden="true"></span>
+            <svg class="stage__hill" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0 52C70 18 140 14 210 30s130 30 190 6V124H0z" fill="#A8D69A"/>
+              <path d="M0 52C70 18 140 14 210 30s130 30 190 6" fill="none" stroke="#6B5447" stroke-width="2" vector-effect="non-scaling-stroke"/>
+              <path d="M0 84C90 62 180 66 260 78s100 10 140-2V124H0z" fill="#86C178"/>
+            </svg>
+            <div class="stage__chars" data-home-trio-stage></div>
+          </div>
+        </div>
+        <div class="home-hero__copy">
           <span class="eyebrow">非官方繁體中文資料站</span>
-          <h1>又細又可愛的一群，<br>過著一點都不輕鬆的生活。</h1>
+          <h1>又細又可愛的一群，<br>過著<span class="mark">一點都不輕鬆</span>的生活。</h1>
           <p class="home-hero__sub">
             這裡整理《ちいかわ》十六個角色的性格剖析與名場面、六個故事篇章的完整脈絡、
             整套世界觀設定，以及最重要的一件事——從牠們身上，我們可以參照甚麼。
           </p>
           <button class="searchbar" type="button" data-open-search>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <span class="searchbar__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
             <span>搜尋角色、篇章、設定、參照⋯⋯</span><kbd>/</kbd>
           </button>
           <div class="quick" aria-label="熱門搜尋">
+            <span class="quick__label">熱門：</span>
             <a class="chip" href="character.html?id=chiikawa">吉伊卡哇</a>
             <a class="chip" href="stories.html#arc-kentei">草拔檢定</a>
             <a class="chip" href="stories.html#arc-seiren">海妖之島</a>
@@ -49,7 +64,6 @@
             <li><b>22</b>人生參照</li>
           </ul>
         </div>
-        <div class="hero-trio" data-home-hero-trio aria-label="主角三人"></div>
       </div>
     </div>
   </section>
@@ -71,7 +85,7 @@
         <div><span class="eyebrow">主角三人組</span><h2>三種面對世界的方式</h2></div>
         <a class="more" href="characters.html">全部角色 →</a>
       </div>
-      <div class="rail reveal" data-home-trio></div>
+      <div class="rail" data-home-trio></div>
     </div>
   </section>
 
@@ -190,7 +204,8 @@
   <!-- ============ 結尾 CTA ============ -->
   <section class="section--tight">
     <div class="wrap">
-      <div class="cta-band reveal">
+      <div class="cta-band reveal" data-cta>
+        <div class="cta-band__faces" data-cta-faces aria-hidden="true"></div>
         <div>
           <span class="eyebrow">性格測驗</span>
           <h2>唔知由邊個角色入手？</h2>

@@ -31,10 +31,26 @@
     var step   = 0;
     var totals = {};
 
+    /* 進度條：先以上一題的位置繪出，下一格才移到新位置，令吉伊卡哇「跑」過去 */
+    var lastPct = 0;
+    var runner = App.char('chiikawa');
     function progress() {
-      var pct = Math.round((step / Q.questions.length) * 100);
-      return '<div class="quiz-progress"><div class="quiz-progress__bar" style="width:' + pct + '%"></div></div>' +
+      return '<div class="quiz-progress" aria-hidden="true"><div class="quiz-progress__bar" style="width:' + lastPct + '%"></div>' +
+               (runner ? '<span class="quiz-runner" style="left:' + lastPct + '%">' + App.avatar(runner) + '</span>' : '') +
+             '</div>' +
              '<p class="quiz-step">第 ' + (step + 1) + ' 題／共 ' + Q.questions.length + ' 題</p>';
+    }
+    function advanceProgress() {
+      var pct = Math.round((step / Q.questions.length) * 100);
+      var bar = host.querySelector('.quiz-progress__bar');
+      var run = host.querySelector('.quiz-runner');
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          if (bar) bar.style.width = pct + '%';
+          if (run) run.style.left = pct + '%';
+        });
+      });
+      lastPct = pct;
     }
 
     function renderQuestion() {
@@ -49,6 +65,8 @@
         (step > 0
           ? '<p style="margin-top:var(--s-5)"><button class="btn btn--ghost" type="button" data-back>← 返回上一題</button></p>'
           : '');
+
+      advanceProgress();
 
       host.querySelectorAll('[data-opt]').forEach(function (b) {
         b.addEventListener('click', function () {
@@ -103,7 +121,7 @@
       host.innerHTML =
         '<div class="quiz-result" style="text-align:center">' +
           '<span class="eyebrow">測驗結果</span>' +
-          '<div class="quiz-result__avatar">' + App.avatar(c) + '</div>' +
+          '<div class="quiz-result__halo"><div class="quiz-result__avatar">' + App.avatar(c) + '</div></div>' +
           '<h2 style="margin-bottom:var(--s-1)">' + esc(c.name) + '</h2>' +
           '<p class="ja" style="color:var(--c-ink-soft);font-size:var(--t-small)">' + esc(c.nameJa) + '</p>' +
           '<p style="font-family:var(--f-display);font-size:1.15rem;color:var(--c-ink-strong);line-height:var(--lh-normal);margin:var(--s-4) 0">' +
@@ -122,10 +140,19 @@
           '<button class="btn btn--ghost" type="button" data-restart>再玩一次</button>' +
         '</p>';
 
+      /* 結果揭曉：由頭像位置撒三輪閃星 */
+      var halo = host.querySelector('.quiz-result__halo');
+      if (halo) {
+        var r = halo.getBoundingClientRect();
+        [0, 260, 520].forEach(function (d) {
+          setTimeout(function () { App.burst(r.left + r.width / 2, r.top + r.height / 2, 14, 140 + d / 4); }, d);
+        });
+      }
+
       var again = host.querySelector('[data-restart]');
       if (again) {
         again.addEventListener('click', function () {
-          step = 0; totals = {};
+          step = 0; totals = {}; lastPct = 0;
           Q.questions.forEach(function (q) { delete q._picked; });
           renderQuestion();
         });
