@@ -25,7 +25,7 @@
     'hitoha-futaba': [740, 80]
   };
 
-  var R = 30;
+  var R = 31;
 
   document.addEventListener('app:ready', function () {
     var esc   = App.esc;
@@ -56,6 +56,8 @@
       return n;
     }
 
+    var defs = el('defs', {});
+    svg.appendChild(defs);
     var gEdges = el('g', {});
     var gNodes = el('g', {});
     svg.appendChild(gEdges);
@@ -65,7 +67,7 @@
       var a = POS[e.a], b = POS[e.b];
       var line = el('line', {
         x1: a[0], y1: a[1], x2: b[0], y2: b[1],
-        stroke: '#D3C4AE', 'stroke-width': 2, 'stroke-linecap': 'round',
+        stroke: '#C9B2A0', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-dasharray': '2 6',
         class: 'relmap-edge'
       });
       line.dataset.a = e.a;
@@ -80,12 +82,27 @@
         'aria-label': c.name + '（' + c.nameJa + '），查看關係'
       });
       g.dataset.id = c.id;
+      /* 角色頭像：外圈代表色光暈 + 圓形裁切的角色圖 + 啡色描邊 */
       g.appendChild(el('circle', {
-        cx: p[0], cy: p[1], r: R,
-        fill: c.tint, stroke: '#FFFFFF', 'stroke-width': 3
+        cx: p[0], cy: p[1], r: R + 6,
+        fill: c.tint, stroke: '#6B5447', 'stroke-width': 1.5
       }));
+      var face = el('g', { class: 'relmap-face' });
+      var clip = el('clipPath', { id: 'relclip-' + c.id });
+      clip.appendChild(el('circle', { cx: p[0], cy: p[1], r: R }));
+      defs.appendChild(clip);
+      face.appendChild(el('circle', { cx: p[0], cy: p[1], r: R, fill: '#fff' }));
+      var img = el('image', {
+        href: c.image, x: p[0] - R, y: p[1] - R, width: R * 2, height: R * 2,
+        preserveAspectRatio: 'xMidYMid slice', 'clip-path': 'url(#relclip-' + c.id + ')'
+      });
+      face.appendChild(img);
+      face.appendChild(el('circle', {
+        cx: p[0], cy: p[1], r: R, fill: 'none', stroke: '#6B5447', 'stroke-width': 2, class: 'relmap-ring'
+      }));
+      g.appendChild(face);
       var label = el('text', {
-        x: p[0], y: p[1] + R + 17, 'text-anchor': 'middle'
+        x: p[0], y: p[1] + R + 24, 'text-anchor': 'middle'
       });
       label.textContent = c.name;
       g.appendChild(label);
@@ -109,20 +126,23 @@
       var rels = (c.relations || []).map(function (r) {
         var o = App.char(r.id);
         if (!o) return '';
-        return '<a class="rel-item" href="' + App.link(o.id) + '" style="--rel-tint:' + esc(o.tint) + ';padding:var(--s-3)">' +
-          '<span class="rel-item__avatar" style="width:36px;height:36px">' + App.avatar(o) + '</span>' +
+        return '<a class="rel-item" href="' + App.link(o.id) + '">' +
+          App.face(o, 36) +
           '<span><span class="rel-item__name" style="font-size:var(--t-small)">' + esc(o.name) +
             '<span class="rel-item__type">' + esc(r.type) + '</span></span>' +
             '<p style="font-size:var(--t-tiny)">' + esc(r.body) + '</p></span></a>';
       }).join('');
 
       panel.innerHTML =
-        '<span class="eyebrow">' + esc(c.tierLabel) + '</span>' +
-        '<h3 style="font-size:1.15rem;margin-bottom:var(--s-1)">' + esc(c.name) + '</h3>' +
-        '<p class="ja" style="font-size:var(--t-tiny);color:var(--c-ink-soft)">' + esc(c.nameJa) + '</p>' +
+        '<div style="display:flex;gap:var(--s-3);align-items:center;margin-bottom:var(--s-3)">' +
+          App.face(c, 56) +
+          '<div><span class="eyebrow eyebrow--plain" style="margin:0">' + esc(c.tierLabel) + '</span>' +
+          '<h3 style="font-size:1.15rem;margin:0">' + esc(c.name) +
+            ' <span class="ja" style="font-size:var(--t-tiny);color:var(--c-ink-soft);font-weight:500">' + esc(c.nameJa) + '</span></h3></div>' +
+        '</div>' +
         '<p style="font-size:var(--t-small);line-height:var(--lh-normal)">' + esc(c.tagline) + '</p>' +
         '<div class="rel-list" style="margin:var(--s-4) 0">' + rels + '</div>' +
-        '<a class="btn btn--primary" href="' + App.link(c.id) + '">睇完整檔案</a>';
+        '<a class="btn btn--primary" href="' + App.link(c.id) + '">看完整檔案</a>';
     }
 
     function setFocus(id) {
